@@ -16,6 +16,8 @@ import { addDebugMessage } from "../lib/debug";
 import { DisplayTypeSwitch } from "./DisplayTypeSwitch";
 import { ScreenshotIconButton } from "./ScreenshotIconButton";
 import { CopyBase64IconButton } from "./CopyBase64IconButton";
+import { startStreaming, stopStreaming, streamActive } from '../lib/streamService';
+import { midiOut } from '../state';
 
 /**
  * DisplayViewer – renders the Deluge OLED / 7-segment output onto a canvas.
@@ -140,7 +142,29 @@ export function DisplayViewer() {
     return unsubscribe;
   }, []);
 
+  // Start/stop streaming when MIDI is connected and display is active
+  useEffect(() => {
+    if (midiOut.value !== null && canvasRef.current && !streamActive.value) {
+      // Wait a bit to ensure canvas has content
+      const timeout = setTimeout(async () => {
+        if (canvasRef.current) {
+          await startStreaming(canvasRef.current);
+        }
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timeout);
+        if (streamActive.value) {
+          stopStreaming();
+        }
+      };
+    } else if (midiOut.value === null && streamActive.value) {
+      stopStreaming();
+    }
+  }, [midiOut.value]);
+
   return (
+    <>
     <div
       id="display-wrapper"
       ref={containerRef}
@@ -168,5 +192,6 @@ export function DisplayViewer() {
         </div>
       )}
     </div>
+    </>
   );
 }

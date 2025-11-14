@@ -29,12 +29,26 @@ import { FileOverrideConfirmation } from "./FileOverrideConfirmation";
 import { AdvancedDisplayControls } from "./AdvancedDisplayControls";
 import { shortcuts, registerGlobalShortcuts } from "../lib/shortcuts";
 import PreviewManager from "./PreviewManager";
+import { StreamPage } from '../pages/StreamPage';
+import { Router, Route } from 'preact-router';
+import { StreamQrCode } from './StreamQrCode';
 
 // Lazily load the file browser sidebar
 const FileBrowserSidebar = lazy(() => import("./FileBrowserSidebar"));
 const TestFilenameIssues = lazy(() => import("./TestNumericFilenames"));
 
+// Nouveau composant App qui gère le routing
 export function App() {
+  return (
+    <Router>
+      <Route path="/stream" component={StreamPage} />
+      <Route path="/" component={MainApp} />
+    </Router>
+  );
+}
+
+// Ancien contenu de App renommé en MainApp
+function MainApp() {
   const [colorDrawerOpen, setColorDrawerOpen] = useState(false);
 
   // Check if test query param is present
@@ -171,7 +185,6 @@ export function App() {
           <SysExConsole />
 
           {/* Numeric filename test component - only show with ?test=true query parameter */}
-          {/* Access by adding ?test=true to the URL (e.g., http://localhost:5173/?test=true) */}
           {showTestComponent && (
             <Suspense fallback={<div>Loading test component...</div>}>
               <TestFilenameIssues />
@@ -199,12 +212,13 @@ export function App() {
       {/* File Override Confirmation Dialog */}
       <FileOverrideConfirmation />
 
-      {/* File Preview Manager - Debug wrapper to ensure it's rendering */}
+      {/* File Preview Manager */}
       <div id="preview-manager-container">
-        {console.log("About to render PreviewManager")}
         <PreviewManager />
-        {console.log("PreviewManager rendered")}
       </div>
+
+      {/* QR Code - affiché seulement si pas en plein écran */}
+      {!fullscreenActive.value && <StreamQrCode />}
     </div>
   );
 }

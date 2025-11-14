@@ -15,7 +15,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "pwa-check": "vite build && [ -f dist/sw.js ] && [ -f dist/manifest.webmanifest ] && echo 'PWA files successfully generated'",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev:server": "tsx watch server/streamServer.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -23,7 +25,10 @@
     "@tailwindcss/vite": "^4.1.4",
     "fuse.js": "^7.1.0",
     "preact": "^10.26.4",
+    "preact-router": "^4.1.2",
+    "qrcode": "^1.5.3",
     "tailwindcss": "^4.1.4",
+    "ws": "^8.18.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -33,6 +38,9 @@
     "@testing-library/preact": "^3.2.4",
     "@testing-library/user-event": "^14",
     "@types/node": "^22.15.2",
+    "@types/qrcode": "^1.5.5",
+    "@types/ws": "^8.5.13",
+    "concurrently": "^8.2.2",
     "cypress": "^14.3.3",
     "cypress-plugin-snapshots": "^1.4.4",
     "eslint": "^9.25.1",
@@ -40,6 +48,7 @@
     "globals": "^16.0.0",
     "jsdom": "^26.1.0",
     "prettier": "^3.5.3",
+    "tsx": "^4.7.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.31.1",
     "vite": "^6.3.1",

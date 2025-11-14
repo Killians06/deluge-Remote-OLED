@@ -80,4 +80,9 @@ export default defineConfig({
     }),
   ],
   resolve: {},
+  server: {
+    host: '0.0.0.0', // Écouter sur toutes les interfaces réseau
+    port: 5173,
+    strictPort: false, // Permet d'utiliser un autre port si 5173 est occupé
+  },
 });
