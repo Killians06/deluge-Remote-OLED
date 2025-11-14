@@ -10,6 +10,7 @@ Prérequis :
 - Creer un fichier .env.local a la racine du projet et y mettre votre IP local de votre machine éxécutant le projet
 ```powershell
 VITE_LOCAL_IP=x.x.x.x
+```
 
 Prérequis :
 - Node.js (LTS recommandé — v21+)
