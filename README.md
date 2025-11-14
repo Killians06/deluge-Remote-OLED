@@ -1,3 +1,60 @@
+## Installation des dépendances
+
+Prérequis :
+- Node.js (LTS recommandé — v21+)
+- Git
+- npm (fourni avec Node) — ou yarn (optionnel, le dépôt indique yarn dans packageManager)
+
+Installation (PowerShell / Windows) :
+```powershell
+# depuis le dossier du projet
+cd c:\Users\oscos\Desktop\deluge-extensions
+
+# installer les dépendances avec npm
+npm install
+```
+
+(Si vous préférez yarn)
+```powershell
+yarn install
+```
+
+## Exécution du projet (développement & production)
+
+Lancer l'environnement de développement (serveur frontend + serveur de streaming) :
+```powershell
+npm run dev:all
+```
+
+Autres scripts utiles :
+```powershell
+# serveur de développement frontend seul
+npm run dev
+
+# démarrer le serveur backend de streaming seul
+npm run dev:server
+
+# build de production
+npm run build
+
+# servir la build localement pour tests
+npm run preview
+
+# vérification de types
+npm run typecheck
+
+# lancer les tests
+npm run test
+```
+
+Notes :
+- Le script de développement combiné est `dev:all` (exécute simultanément le frontend et le serveur de stream).
+- Adaptez la commande si vous utilisez yarn : `yarn dev:all`.
+
+## Modifications apportées dans ce fork
+
+Ajout dde la fonction Remote de l'ecran pour l'avoir sur son smartphone et sans Latence
+
 # ![DEx Logo](https://github.com/user-attachments/assets/f10ef2df-f569-49a0-a20c-0716f2e33579)
 
 # DEx: Deluge EXtensions ✨
