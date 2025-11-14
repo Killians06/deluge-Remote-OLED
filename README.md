@@ -7,7 +7,7 @@ Prérequis :
 
 ## Variables d'environement
 
-- Mettre l'adresse IP de votre machine dans le fichier .env.local
+- Creer un fichier .env.local a la racine du projet et y mettre votre IP local de votre machine éxécutant le projet
 ```powershell
 VITE_LOCAL_IP=x.x.x.x
 
