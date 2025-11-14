@@ -20,7 +20,7 @@ Prérequis :
 Installation (PowerShell / Windows) :
 ```powershell
 # depuis le dossier du projet
-cd c:\Users\oscos\Desktop\deluge-extensions
+cd c:\Users\oscos\Desktop\deluge-Remote-OLED
 
 # installer les dépendances avec npm
 npm install --force
