@@ -22,7 +22,7 @@ Installation (PowerShell / Windows) :
 cd c:\Users\oscos\Desktop\deluge-extensions
 
 # installer les dépendances avec npm
-npm install
+npm install --force
 ```
 
 (Si vous préférez yarn)
