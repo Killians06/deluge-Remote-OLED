@@ -5,6 +5,17 @@ Prérequis :
 - Git
 - npm (fourni avec Node) — ou yarn (optionnel, le dépôt indique yarn dans packageManager)
 
+## Variables d'environement
+
+- Mettre l'adresse IP de votre machine dans le fichier .env.local
+```powershell
+VITE_LOCAL_IP=x.x.x.x
+
+Prérequis :
+- Node.js (LTS recommandé — v21+)
+- Git
+- npm (fourni avec Node) — ou yarn (optionnel, le dépôt indique yarn dans packageManager)
+
 Installation (PowerShell / Windows) :
 ```powershell
 # depuis le dossier du projet
