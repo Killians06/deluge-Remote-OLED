@@ -17,7 +17,7 @@
     "pwa-check": "vite build && [ -f dist/sw.js ] && [ -f dist/manifest.webmanifest ] && echo 'PWA files successfully generated'",
     "lint": "eslint",
     "dev:server": "tsx watch server/streamServer.ts",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\""
+    "dev:all": "node ./scripts/gen-env.cjs && concurrently \"npm run dev\" \"npm run dev:server\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

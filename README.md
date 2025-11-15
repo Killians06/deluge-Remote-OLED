@@ -5,12 +5,15 @@ Prérequis :
 - Git
 - npm (fourni avec Node) — ou yarn (optionnel, le dépôt indique yarn dans packageManager)
 
-## Variables d'environement
+## Variables d'environnement
 
-- Creer un fichier .env.local a la racine du projet et y mettre votre IP local de votre machine éxécutant le projet
-```powershell
-VITE_LOCAL_IP=x.x.x.x
+Le fichier `.env.local` est généré automatiquement lors du lancement en développement (`npm run dev:all`). Le script détecte l'adresse IP locale et écrit :
+
+```text
+VITE_LOCAL_IP=192.168.x.x
 ```
+
+Si vous voulez forcer une IP différente, créez/éditez `.env.local` manuellement. Un exemple est fourni : `.env.example`.
 
 Prérequis :
 - Node.js (LTS recommandé — v21+)
