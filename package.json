@@ -2,7 +2,7 @@
   "name": "deluge-extension",
   "private": true,
   "version": "1-beta.0",
-  "type": "module",
+  "main": "electron/main.js",
   "engines": {
     "node": ">=21.1.0",
     "yarn": ">=4.5.0"
@@ -17,7 +17,13 @@
     "pwa-check": "vite build && [ -f dist/sw.js ] && [ -f dist/manifest.webmanifest ] && echo 'PWA files successfully generated'",
     "lint": "eslint",
     "dev:server": "tsx watch server/streamServer.ts",
-    "dev:all": "node ./scripts/gen-env.cjs && concurrently \"npm run dev\" \"npm run dev:server\""
+    "dev:server:nowatch": "tsx server/streamServer.ts",
+    "dev:all": "node ./scripts/gen-env.cjs && concurrently \"npm run dev\" \"npm run dev:server\"",
+    "electron:dev": "concurrently --kill-others \"cross-env NODE_ENV=development npm run dev\" \"cross-env NODE_ENV=development npm run dev:server:nowatch\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+    "electron:build": "npm run build && tsc -p tsconfig.server.json && electron-builder",
+    "electron:build:win": "npm run build && tsc -p tsconfig.server.json && electron-builder --win",
+    "electron:build:mac": "npm run build && tsc -p tsconfig.server.json && electron-builder --mac",
+    "electron:build:linux": "npm run build && tsc -p tsconfig.server.json && electron-builder --linux"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -41,8 +47,11 @@
     "@types/qrcode": "^1.5.5",
     "@types/ws": "^8.5.13",
     "concurrently": "^8.2.2",
+    "cross-env": "^10.1.0",
     "cypress": "^14.3.3",
     "cypress-plugin-snapshots": "^1.4.4",
+    "electron": "^39.2.0",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.25.1",
     "eslint-config-preact": "^1.5.0",
     "globals": "^16.0.0",
@@ -55,6 +64,7 @@
     "vite-plugin-pwa": "^1.0.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.2",
+    "wait-on": "^9.0.3",
     "workbox-build": "^7.3.0",
     "workbox-expiration": "^7.3.0",
     "workbox-precaching": "^7.3.0",
@@ -65,5 +75,41 @@
   "packageManager": "yarn@4.9.1",
   "eslintConfig": {
     "extends": "preact"
+  },
+  "build": {
+    "appId": "com.deluge.dex",
+    "productName": "DEx - Deluge Toolkit",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-server/**/*",
+      "electron/**/*",
+      "public/icons/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "public/icons/icon-512.png"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "public/icons/icon-512.png",
+      "category": "public.app-category.music"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "public/icons/icon-512.png",
+      "category": "Audio"
+    }
   }
 }

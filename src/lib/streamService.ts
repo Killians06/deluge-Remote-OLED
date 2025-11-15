@@ -105,7 +105,6 @@ export async function startStreaming(canvas: HTMLCanvasElement): Promise<void> {
     // Generate stream URL for QR code - wait for IP detection
     await updateStreamUrl(token);
     
-    // Utiliser requestAnimationFrame pour une meilleure synchronisation
     const targetFrameTime = 1000 / FRAME_RATE;
     
     const captureFrame = () => {
@@ -113,31 +112,20 @@ export async function startStreaming(canvas: HTMLCanvasElement): Promise<void> {
         return;
       }
 
-      const now = performance.now();
-      const elapsed = now - lastFrameTime;
-      
-      if (elapsed >= targetFrameTime) {
-        try {
-          const streamCanvas = prepareCanvasForStream(canvas);
-          const dataUrl = streamCanvas.toDataURL('image/jpeg', JPEG_QUALITY);
-          const base64Data = dataUrl.split(',')[1];
-          
-          if (base64Data && ws.readyState === WebSocket.OPEN) {
-            ws.send(base64Data);
-            lastFrameTime = now;
-          }
-        } catch (err) {
-          console.error('Error capturing frame:', err);
+      try {
+        const streamCanvas = prepareCanvasForStream(canvas);
+        const dataUrl = streamCanvas.toDataURL('image/jpeg', JPEG_QUALITY);
+        const base64Data = dataUrl.split(',')[1];
+        
+        if (base64Data && ws.readyState === WebSocket.OPEN) {
+          ws.send(base64Data);
         }
-      }
-      
-      if (streamActive.value) {
-        frameInterval = window.requestAnimationFrame(captureFrame) as unknown as number;
+      } catch (err) {
+        console.error('Error capturing frame:', err);
       }
     };
     
-    lastFrameTime = performance.now();
-    frameInterval = window.requestAnimationFrame(captureFrame) as unknown as number;
+    frameInterval = window.setInterval(captureFrame, targetFrameTime) as unknown as number;
   };
 
   ws.onerror = (error) => {
@@ -162,7 +150,7 @@ export async function startStreaming(canvas: HTMLCanvasElement): Promise<void> {
  */
 export function stopStreaming(): void {
   if (frameInterval !== null) {
-    window.cancelAnimationFrame(frameInterval);
+    window.clearInterval(frameInterval);
     frameInterval = null;
   }
   

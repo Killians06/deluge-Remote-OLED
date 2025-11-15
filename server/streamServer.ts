@@ -97,6 +97,16 @@ wss.on('connection', (ws: WebSocket, req) => {
 });
 
 // Écouter sur toutes les interfaces réseau (0.0.0.0)
+server.on('error', (err: NodeJS.ErrnoException) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Please close other instances or change the port.`);
+    process.exit(1);
+  } else {
+    console.error('Server error:', err);
+    process.exit(1);
+  }
+});
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Stream server running on ws://0.0.0.0:${PORT}`);
   console.log(`Accessible from network at ws://192.168.1.98:${PORT}`);
